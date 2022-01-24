@@ -9,6 +9,11 @@ from tactile import Tactile
 from simple_pid import PID
 from filter import LPFilter
 from filter import SlicedController
+from matplotlib import rc
+
+matplotlib.use('Qt5Agg')
+rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+rc('text', usetex=True)
 
 
 def main():
@@ -83,12 +88,21 @@ def main():
     i1 = int(10.0 / 0.03)
     # i0 = 0
     # i1 = int(2.0 / 0.03)
-    ax[0].plot(numpy.array(td[i0:i1]), numpy.array(gd[i0:i1]))
-    ax[0].plot(numpy.array(td[i0:i1]), numpy.array(trd[i0:i1]))
+    ax[0].plot(numpy.array(td[i0:i1]), numpy.array(gd[i0:i1]), label = '$\mathrm{gripper}$')
+    ax[0].plot(numpy.array(td[i0:i1]), numpy.array(trd[i0:i1]), label = '$\mathrm{desired}$')
+    ax[0].legend(fontsize = 15)
+    ax[0].yaxis.set_tick_params(labelsize = 15)
+    ax[0].xaxis.set_tick_params(bottom = False, labelbottom = False)
     # ax[0].plot(numpy.array(td[i0:i1]), numpy.array(scd[i0:i1]))
-    ax[1].plot(numpy.array(td[i0:i1]), numpy.array(sd[i0:i1]))
-    ax[1].plot(numpy.array(td[i0:i1]), numpy.array(spd[i0:i1]))
+    ax[1].plot(numpy.array(td[i0:i1]), numpy.array(sd[i0:i1]), label = '$\mathrm{sensor}$')
+    ax[1].plot(numpy.array(td[i0:i1]), numpy.array(spd[i0:i1]), label = '$\mathrm{desired}$')
+    ax[1].legend(loc = 'upper left', fontsize = 15)
+    ax[1].yaxis.set_tick_params(labelsize = 15)
+    ax[1].xaxis.set_tick_params(labelsize = 15)
     ax[1].ticklabel_format(useOffset=False)
+    ax[1].set_xlabel('$\mathrm{time(s)}$', fontsize = 15)
+
+    # plt.yticks(fontsize = 16)
     plt.show()
 
 if __name__ == '__main__':
