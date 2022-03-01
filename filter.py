@@ -50,17 +50,22 @@ class LPFilter():
 class SlicedController():
 
 
-    def __init__(self):
+    def __init__(self, max, res):
 
-        self.filter = LPFilter(10, 0.03)
+        self.filter = LPFilter(1, 0.03)
+        self.res = res
+        self.max = max
+
+    def get_slice(self, value):
+        slice = int((self.max - value) / self.res)
+
+        return slice
 
 
     def update(self, value):
 
-        res = 0.4 * 0.001
-        slice = int(value / res)
-        new_value = res * (slice + 1.0 / 2.0)
-
+        slice = self.get_slice(value)
+        new_value = self.max - self.res * (slice + 1.0 / 2.0)
         new_value_f = self.filter.filter(new_value)
 
         return new_value_f
